@@ -12,7 +12,7 @@ import de.hswt.bp.tetris.Piece.Tetrominoe;
 public abstract class BoardController {
 	
 	private Board board;
-
+	// testcomment
 	
 	public BoardController(Board theBoard) {
 		board = theBoard;
