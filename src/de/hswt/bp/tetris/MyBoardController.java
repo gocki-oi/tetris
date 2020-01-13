@@ -122,7 +122,7 @@ public class MyBoardController extends BoardController {
 
             if (isFull) {
                 int firstBlock = i * getBoardWidth();
-                int lastBlock = firstBlock + getBoardWidth();
+                int lastBlock = firstBlock + getBoardWidth() - 1;
 
                 System.out.println(firstBlock + " - " + lastBlock);
 
