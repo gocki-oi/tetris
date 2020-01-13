@@ -51,7 +51,7 @@ public class MyBoardController extends BoardController {
         // different shapes --> different starting points in "right" and "down" axis
         // quadDown and Right move them away from borders
 
-        setCurrentPiecePosition(4 + quadRight, 17);
+        setCurrentPiecePosition(4 + quadRight, 22 - quadDown);
 
 
         System.out.println("New piece:" + shapeType);
@@ -78,10 +78,14 @@ public class MyBoardController extends BoardController {
         return true;
     }
 
+    public boolean canMoveDown(Piece piece, int x, int y) {
+        return canMoveTo(piece, x, y - 1);
+    }
+
     @Override
     protected void oneLineDown(Piece piece, int x, int y) {
 
-        if (canMoveTo(piece, x, y - 1)) {
+        if (canMoveDown(piece, x, y)) {
             moveTo(piece, x, y - 1);
             return;
         }
@@ -93,6 +97,7 @@ public class MyBoardController extends BoardController {
         startNewPiece();
 
     }
+
 
     private void paintEachBrickOfPiece(Piece piece, int x, int y) {
         for (int i = 0; i < 4; i++) {
@@ -110,7 +115,7 @@ public class MyBoardController extends BoardController {
 
         int lineCounter = 0;
 
-        for (int i = getBoardHeight()-1; i >= 0; i--) {
+        for (int i = getBoardHeight() - 1; i >= 0; i--) {
             boolean isFull = true;
             for (int j = 0; j < getBoardWidth(); j++) {
 
@@ -127,7 +132,7 @@ public class MyBoardController extends BoardController {
                 System.out.println(firstBlock + " - " + lastBlock);
 
                 deleteLine(firstBlock, lastBlock);
-                bricksDropOnBoard(lastBlock + 1);
+                bricksDropOnBoard(lastBlock);
 
                 lineCounter++;
             }
@@ -142,7 +147,7 @@ public class MyBoardController extends BoardController {
     }
 
     private void bricksDropOnBoard(int lastBrick) {
-        for (int i = lastBrick; i <= getBoardHeight() * getBoardWidth() -1 ; i++) {
+        for (int i = lastBrick + 1; i <= getBoardHeight() * getBoardWidth() - 1; i++) {
             System.out.println("move " + (i));
             movePieceDown(i - getBoardWidth());
         }
@@ -195,10 +200,17 @@ public class MyBoardController extends BoardController {
 
     @Override
     protected void dropDown(Piece piece, int y, int x) {
+        int newY = y;
 
-        moveTo(piece, x, y - 1);
+        while (canMoveDown(piece, x, newY)) {
+            newY--;
+            moveTo(piece, x, newY);
+        }
+
 
     }
+
+
 /*	}protected void oneLineDown(Piece piece, int x, int y) {
 			if (canMoveTo()) {
 
